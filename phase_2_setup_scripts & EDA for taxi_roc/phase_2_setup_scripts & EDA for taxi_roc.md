@@ -124,10 +124,20 @@ Dividing by 60 converts the result from seconds to minutes.
 TIMESTAMP '2023-01-01 01:00:00' - TIMESTAMP '2023-01-01 00:00:00' = 3600 seconds = 60 minutes
 ```
 
+## Initial strategy for joining or cross-referencing datasets
+To enrich the trip data (fhv trip) with geographic context (borough, zone names) using the taxi zone lookup table.
+**Linkage Keys**
+fhv_trip.pulocationid → taxi_zone_lookup.locationid
+fhv_trip.dolocationid → taxi_zone_lookup.locationid
 
-
-
-
-
-
-
+These foreign key relationships allow us to translate location IDs into real boroughs and zones.
+Join for Both Pickup and Dropoff Info:
+```sql
+SELECT
+  ft.*,
+  tzp.borough AS pickup_borough, tzp.zone AS pickup_zone,
+  tzd.borough AS dropoff_borough, tzd.zone AS dropoff_zone
+FROM fhv_trip ft
+LEFT JOIN taxi_zone_lookup tzp ON ft.pulocationid = tzp.locationid
+LEFT JOIN taxi_zone_lookup tzd ON ft.dolocationid = tzd.locationid;
+```
