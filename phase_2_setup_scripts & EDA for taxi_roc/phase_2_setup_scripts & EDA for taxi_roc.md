@@ -38,9 +38,12 @@ CREATE TABLE taxi_zone_lookup (
 ```sql
 select * from fhv_trip ft;
 ```
+![FHV](https://github.com/user-attachments/assets/d83bd7d3-b96f-4c84-85b2-9b20354ff1c0)
+
 ```sql
 select * from taxi_zone_lookup;
 ```
+![taxi_zooe_lookup](https://github.com/user-attachments/assets/5fa4a86f-e2b4-4ef3-96d4-5c1100ec70c1)
 
 
 
@@ -58,6 +61,7 @@ SELECT
   COUNT(*) FILTER (WHERE affiliated_base_number IS NULL) AS null_affiliated_base_number
 FROM fhv_trip;
 ```
+![fhv_null-V](https://github.com/user-attachments/assets/8b0b6b03-06b4-4ebc-8b95-ff199987dd01)
 
 
 ### check for the most common pickup and drop off zones
@@ -75,7 +79,10 @@ WHERE ft.pulocationid IS NOT NULL
 GROUP BY ft.pulocationid, tzl.borough, tzl.zone
 ORDER BY pickup_count DESC
 LIMIT 10;
+```
+![MCPu](https://github.com/user-attachments/assets/250a2540-64c2-49b5-956b-56b11053b83d)
 
+```sql
 -- Most common drop-off zones (by ID)
 SELECT 
     ft.dolocationid , 
@@ -90,6 +97,7 @@ GROUP BY ft.dolocationid, tzl.borough, tzl.zone
 ORDER BY drop_off_count DESC
 LIMIT 10;
 ```
+![MCDO](https://github.com/user-attachments/assets/d98294f1-5444-4971-94b0-fedfa82d5028)
 
 ### the trip duration
 ```sql
@@ -103,10 +111,12 @@ FROM fhv_trip
 WHERE dropoff_datetime > pickup_datetime
 AND EXTRACT(EPOCH FROM dropoff_datetime - pickup_datetime) / 60 BETWEEN 1 AND 180;
 ```
+![trip_duration](https://github.com/user-attachments/assets/5a0c2186-9aa1-4546-80ef-11577bde970b)
+
 in the sql, the **EXTRACT(EPOCH FROM dropoff_datetime - pickup_datetime)/ 60** meaning:
 dropoff_datetime - pickup_datetime calculates the time interval between the pickup and dropoff.
-EXTRACT(EPOCH FROM interval) converts that interval into the total number of seconds.
-For example:
+- EXTRACT(EPOCH FROM interval) converts that interval into the total number of seconds.
+- For example:
 TIMESTAMP '2023-01-01 01:00:00' - TIMESTAMP '2023-01-01 00:00:00'
 results in an interval of 1 hour, which is 3600 seconds.
 Dividing by 60 converts the result from seconds to minutes.
