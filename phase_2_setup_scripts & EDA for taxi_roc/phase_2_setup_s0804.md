@@ -2,40 +2,69 @@
 ## PostgreSQL Setup Scripts: Import Raw Data, Create Schema, Define Types
 
 Table Created:
-#### 1. `so804`
+#### 1. `class_of_worker`
 
-CREATE TABLE so804 (
-    label TEXT,
-    total_estimate VARCHAR,
-    total_margin_of_error VARCHAR,
-    drove_alone_estimate VARCHAR,
-    drove_alone_margin_of_error VARCHAR,
-    carpooled_estimate VARCHAR,
-    carpooled_margin_of_error VARCHAR,
-    public_transportation_estimate VARCHAR,
-    public_transportation_margin_of_error VARCHAR,
-    worked_from_home_estimate VARCHAR,
-    worked_from_home_margin_of_error VARCHAR
+
+```sql
+create table class_of_worker(
+earnings_in_past_12_months VARCHAR,
+total_estimate VARCHAR,
+total_margin_of_error VARCHAR,
+driving_alone_estimate VARCHAR,
+driving_alone_margin_of_error VARCHAR,
+carpooled_estimate VARCHAR,
+carpooled_margin_of_error VARCHAR,
+public_transportation_estimate VARCHAR,
+public_transportation_margin_of_error VARCHAR,
+worked_from_home_estimate VARCHAR,
+worked_from_home_margin_of_error VARCHAR
 );
-
-This table provides detailed data on how people in New York City commute to work, broken down by means of transportation. 
-
-## Exploratory Data Analysis (EDA) 
-
-select * from so804;
+```
+This table provides detailed data on how people in New York City travel to work based on the class of worker they are. 
 ![alt text](image.png)
 
+### 2. `earnings`
+
+```sql
+create table earnings (
+earnings_in_past_12_months VARCHAR,
+total_estimate VARCHAR,
+total_margin_of_error VARCHAR,
+driving_alone_estimate VARCHAR,
+driving_alone_margin_of_error VARCHAR,
+carpooled_estimate VARCHAR,
+carpooled_margin_of_error VARCHAR,
+public_transportation_estimate VARCHAR,
+public_transportation_margin_of_error VARCHAR,
+worked_from_home_estimate VARCHAR,
+worked_from_home_margin_of_error VARCHAR
+);
+```
+This table provides detailed data on how people in New York City travel to work based on their earnings. 
+![alt text](image-1.png)
+## Exploratory Data Analysis (EDA) 
+
+```sql
+--Null counts per column 
 SELECT
-  COUNT(*) FILTER (WHERE label IS NULL) AS label_null,
-  COUNT(*) FILTER (WHERE total_estimate IS NULL) AS total_estimate_null,
+  COUNT(*) FILTER (WHERE earnings_in_past_12_months IS NULL) AS null_earnings_in_past_12_months,
+  COUNT(*) FILTER (WHERE total_estimate IS NULL) AS null_total_estimate,
   COUNT(*) FILTER (WHERE total_margin_of_error IS NULL) AS null_total_margin_of_error,
-  COUNT(*) FILTER (WHERE drove_alone_estimate IS NULL) AS null_drove_alone_estimate,
-  COUNT(*) FILTER (WHERE drove_alone_margin_of_error IS NULL) AS null_drove_alone_moe,
-  COUNT(*) FILTER (WHERE carpooled_estimate IS NULL) AS null_carpooled_estimate,
-  COUNT(*) FILTER (WHERE public_transportation_estimate IS NULL) AS null_public_transportation_estimate
-  from so804;
- ![alt text](image-1.png)
+  COUNT(*) FILTER (WHERE driving_alone_estimate IS NULL) AS null_driving_alone_estimate,
+  COUNT(*) FILTER (WHERE driving_alone_margin_of_error IS NULL) AS null_driving_alone_margin_of_error
+FROM class_of_worker cow  ;
+```
+![alt text](image-2.png)
 
-
+```sql 
+SELECT
+  COUNT(*) FILTER (WHERE earnings_in_past_12_months IS NULL) AS null_earnings_in_past_12_months,
+  COUNT(*) FILTER (WHERE total_estimate IS NULL) AS null_total_estimate,
+  COUNT(*) FILTER (WHERE total_margin_of_error IS NULL) AS null_total_margin_of_error,
+  COUNT(*) FILTER (WHERE driving_alone_estimate IS NULL) AS null_driving_alone_estimate,
+  COUNT(*) FILTER (WHERE driving_alone_margin_of_error IS NULL) AS null_driving_alone_margin_of_error
+FROM earnings e ;
+```
+![alt text](image-3.png)
 
 
