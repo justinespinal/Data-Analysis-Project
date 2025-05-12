@@ -207,3 +207,5 @@ select * from fhv_zip_earnings_cte;
 select * from fhv_zip_earnings;
 ```
 ![alt text](image-10.png)
+
+![image](https://github.com/user-attachments/assets/e4039d53-af9c-4e9b-b4c6-2179e358066a)
